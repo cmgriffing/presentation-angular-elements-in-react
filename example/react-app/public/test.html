@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <title>React App</title>
+    <script src="./elements.js" async></script>
+    <script>
+      class CountdownTimer extends HTMLElement {
+        connectedCallback() {
+            const template = `
+                <button class="countdown-start">Start the countdown</button>
+                <span class="seconds-left"></span>
+                `;
+            this.innerHTML = template;
+
+            // Useful references
+            this.button = this.querySelector('.countdown-start');
+            this.secondsDisplay = this.querySelector('.seconds-left');
+
+            // Initialize
+            this.button.addEventListener('click', () => this.handleClick());
+        }
+
+        handleClick() {
+          console.log('this.seconds', this.seconds);
+          this.seconds = 10;
+            this.updateTimer();
+            this.button.disabled = true;
+            this.button.innerHTML = 'YOU DID IT';
+            this.updateTimer();
+            const counter = window.setInterval(() => {
+                this.seconds--;
+                this.updateTimer();
+                if (this.seconds === 0) {
+                    window.clearInterval(counter);
+                    console.info('BOOM');
+                }
+            }, 1000);
+        }
+
+        updateTimer() {
+            this.secondsDisplay.innerHTML = this.seconds;
+        }
+
+      }
+
+      window.customElements.define('countdown-timer', CountdownTimer);
+    </script>
+  </head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root"></div>
+    <div>
+      <ng-wolf name="Winston"></ng-wolf>
+
+      <countdown-timer seconds="10"></countdown-timer>
+  </body>
+</html>

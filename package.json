@@ -1,0 +1,17 @@
+{
+  "name": "angular-elements-in-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "assets": "mkdir -p html/assets && cp -a assets/. html/assets/",
+    "build": "npm run assets && pandoc --section-divs -s -t revealjs src/*.md -o html/index.html --verbose --slide-level=1 --from markdown-yaml_metadata_block --variable theme='beige'",
+    "watch": "nodemon --exec \"npm run build \" src/*.md",
+    "deploy": "git subtree push --prefix html origin gh-pages"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
