@@ -11,9 +11,6 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <title>React App</title>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.0.2/webcomponents-loader.js"></script>
-   
     <script src="./elements.js">
 
     </script>
@@ -25,7 +22,11 @@
     <div id="root"></div>
     <div>
       <ng-wolf name="Winston"></ng-wolf>
-
-      <countdown-timer seconds="10"></countdown-timer>
+    </div>
+    <script>
+      document.querySelector('ng-wolf').addEventListener('revealed', function(event) {
+        console.log('revealed event', event);
+      });
+    </script>
   </body>
 </html>

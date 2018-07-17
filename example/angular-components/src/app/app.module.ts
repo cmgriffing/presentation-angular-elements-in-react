@@ -19,10 +19,23 @@ import { WolfComponent } from './wolf/wolf.component';
 export class AppModule {
 
   constructor(private injector: Injector) {
+    const _window = (<any>window);
+    _window.myElements = {
+      meta: {
+        tags: [],
+        namesByTag: {}
+      },
+      elements: {}
+    };
+
     const wolfElement = createCustomElement(WolfComponent, {injector});
-    window.customElements.define('ng-wolf', wolfElement);
+    _window.customElements.define('ng-wolf', wolfElement);
+
+    _window.myElements.meta.tags.push('ng-wolf');
+    _window.myElements.meta.namesByTag['ng-wolf'] = 'Wolf';
+
+    _window.myElements.elements['ng-wolf'] = wolfElement;
   }
 
   ngDoBootstrap() {}
 }
-

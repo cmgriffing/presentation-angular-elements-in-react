@@ -20,7 +20,10 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
-    <script src="./elements.js" async></script>
+    <script src="./elements.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.0.2/webcomponents-loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.0.2/custom-elements-es5-adapter.js"></script>
+
   </head>
   <body>
     <noscript>
@@ -29,6 +32,7 @@
     <div id="root"></div>
     <div>
       <ng-wolf name="Winston"></ng-wolf>
+      <countdown-timer seconds="20"></countdown-timer>
     </div>
     <!--
       This HTML file is a template.
