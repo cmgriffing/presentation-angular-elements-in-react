@@ -14,6 +14,71 @@
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
   <link rel="stylesheet" href="reveal.js/css/theme/beige.css" id="theme">
   <!-- Printing and PDF exports -->
   <script>
@@ -68,6 +133,10 @@
 
 <section id="why---portability" class="level2">
 <h2>Why - Portability</h2>
+<ul>
+<li>Migrating Older projects</li>
+<li>Organization-wide component library</li>
+</ul>
 <aside class="notes">
 <ul>
 <li><p>Older projects can use something like Angular Elements to wrap their components as web components. (Angular Elements may not be the specific solution, this is just an easy example.)</p></li>
@@ -79,10 +148,245 @@
 </section>
 <section class="slide level1">
 
+<section id="making-a-basic-webcomponent" class="level2">
+<h2>Making A Basic WebComponent</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">class</span> Countdown <span class="kw">extends</span> HTMLElement <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="at">connectedCallback</span>() <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">    <span class="kw">const</span> template <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="vs">      &lt;button class=&quot;countdown-start&quot;&gt;Start the countdown&lt;/button&gt;</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="vs">      &lt;span class=&quot;seconds-left&quot;&gt;&lt;/span&gt;</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="vs">      `</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">    <span class="kw">this</span>.<span class="at">innerHTML</span> <span class="op">=</span> template<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">    <span class="co">// Useful references</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">    <span class="kw">this</span>.<span class="at">button</span> <span class="op">=</span> <span class="kw">this</span>.<span class="at">querySelector</span>(<span class="st">&#39;.countdown-start&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">    <span class="kw">this</span>.<span class="at">secondsDisplay</span> <span class="op">=</span> <span class="kw">this</span>.<span class="at">querySelector</span>(<span class="st">&#39;.seconds-left&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">    <span class="co">// Initialize</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">    <span class="kw">this</span>.<span class="va">button</span>.<span class="at">addEventListener</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> () <span class="op">=&gt;</span> <span class="kw">this</span>.<span class="at">handleClick</span>())<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">  <span class="op">}</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">  <span class="at">handleClick</span>() <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">      <span class="cf">if</span>(<span class="kw">this</span>.<span class="at">hasAttribute</span>(<span class="st">&#39;seconds&#39;</span>)) <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">        <span class="kw">this</span>.<span class="at">seconds</span> <span class="op">=</span> <span class="op">+</span><span class="kw">this</span>.<span class="at">getAttribute</span>(<span class="st">&#39;seconds&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">      <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">        <span class="kw">this</span>.<span class="at">seconds</span> <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">      <span class="op">}</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23">      <span class="kw">this</span>.<span class="at">updateTimer</span>()<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24">      <span class="kw">this</span>.<span class="va">button</span>.<span class="at">disabled</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25">      <span class="kw">this</span>.<span class="va">button</span>.<span class="at">innerHTML</span> <span class="op">=</span> <span class="st">&#39;YOU DID IT&#39;</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb1-26" data-line-number="26">      <span class="kw">this</span>.<span class="at">updateTimer</span>()<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-27" data-line-number="27">      <span class="kw">const</span> counter <span class="op">=</span> <span class="va">window</span>.<span class="at">setInterval</span>(() <span class="op">=&gt;</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-28" data-line-number="28">        <span class="kw">this</span>.<span class="at">seconds</span><span class="op">--;</span></a>
+<a class="sourceLine" id="cb1-29" data-line-number="29">        <span class="kw">this</span>.<span class="at">updateTimer</span>()<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-30" data-line-number="30">        <span class="cf">if</span> (<span class="kw">this</span>.<span class="at">seconds</span> <span class="op">===</span> <span class="dv">0</span>) <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-31" data-line-number="31">          <span class="va">window</span>.<span class="at">clearInterval</span>(counter)<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-32" data-line-number="32">          <span class="va">console</span>.<span class="at">info</span>(<span class="st">&#39;BOOM&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-33" data-line-number="33">          <span class="kw">this</span>.<span class="at">dispatchEvent</span>(<span class="kw">new</span> <span class="at">Event</span>(<span class="st">&#39;boom&#39;</span>))<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-34" data-line-number="34">        <span class="op">}</span></a>
+<a class="sourceLine" id="cb1-35" data-line-number="35">      <span class="op">},</span> <span class="dv">1000</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-36" data-line-number="36">  <span class="op">}</span></a>
+<a class="sourceLine" id="cb1-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb1-38" data-line-number="38">  <span class="at">updateTimer</span>() <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-39" data-line-number="39">      <span class="kw">this</span>.<span class="va">secondsDisplay</span>.<span class="at">innerHTML</span> <span class="op">=</span> <span class="kw">this</span>.<span class="at">seconds</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb1-40" data-line-number="40">  <span class="op">}</span></a>
+<a class="sourceLine" id="cb1-41" data-line-number="41"></a>
+<a class="sourceLine" id="cb1-42" data-line-number="42"><span class="op">}</span></a></code></pre></div>
+<aside class="notes">
+<p>There are two important parts to notice first.</p>
+<p>The first is the “input” which we get by using <code>this.getAttribute</code>.</p>
+<p>The second is the event we dispatch. Consumers can then just attach an event listener and they can react to our component.</p>
+</aside>
+</section>
+<section id="lifecycle-callbacks" class="level2">
+<h2>Lifecycle Callbacks</h2>
+<ul>
+<li><p>connectedCallback =&gt; componentDidMount</p></li>
+<li><p>disconnectedCallback =&gt; componentWillUnmount</p></li>
+<li><p>attributeChangedCallback =&gt; componentDidUpdate</p></li>
+<li><p>adoptedCallback =&gt; <code>¯\_(ツ)_/¯</code></p></li>
+</ul>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements#Using_the_lifecycle_callbacks" class="uri">https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements#Using_the_lifecycle_callbacks</a></p>
+<aside class="notes">
+<ul>
+<li><p>connectedCallback: Invoked each time the custom element is appended into a document-connected element. This will happen each time the node is moved, and may happen before the element’s contents have been fully parsed.</p></li>
+<li><p>disconnectedCallback: Invoked each time the custom element is disconnected from the document’s DOM.</p></li>
+<li><p>adoptedCallback: Invoked each time the custom element is moved to a new document.</p></li>
+<li>attributeChangedCallback: Invoked each time one of the custom element’s attributes is added, removed, or changed.</li>
+</ul>
+</aside>
+</section>
+<section id="using-a-basic-web-component" class="level2">
+<h2>Using A Basic Web Component</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode html"><code class="sourceCode html"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">&lt;!-- Add it to the DOM --&gt;</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">&lt;countdown-timer</span><span class="ot"> seconds=</span><span class="st">20</span><span class="kw">&gt;&lt;/countdown-timer&gt;</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">&lt;script&gt;</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="co">// Define the element on the global CustomElementRegistry</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">  <span class="va">window</span>.<span class="va">customElements</span>.<span class="at">define</span>(<span class="st">&#39;countdown-timer&#39;</span><span class="op">,</span> Countdown)<span class="op">;</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">  <span class="co">// Listening to the output event</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">  <span class="va">document</span>.<span class="at">querySelector</span>(<span class="st">&#39;countdown-timer&#39;</span>)</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">    .<span class="at">addEventListener</span>(<span class="st">&#39;boom&#39;</span><span class="op">,</span> <span class="kw">function</span>(event) <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">      <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;BOOM&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">    <span class="op">}</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="kw">&lt;/script&gt;</span></a></code></pre></div>
+<aside class="notes">
+
+</aside>
+</section>
+</section>
+<section class="slide level1">
+
+<section id="angular-elements-component" class="level2">
+<h2>Angular Elements (component)</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="im">import</span> <span class="op">{</span> Component<span class="op">,</span> OnInit<span class="op">,</span> Input<span class="op">,</span> Output<span class="op">,</span> EventEmitter<span class="op">,</span> ViewEncapsulation <span class="op">}</span> <span class="im">from</span> <span class="st">&#39;@angular/core&#39;</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">@<span class="at">Component</span>(<span class="op">{</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="dt">selector</span><span class="op">:</span> <span class="st">&#39;ng-wolf&#39;</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">  <span class="dt">template</span><span class="op">:</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="vs">    &lt;img [src]=&quot;avatar&quot; (click)=&quot;reveal($event)&quot; alt=&quot;Wolf&quot; /&gt;</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="vs">  `</span><span class="op">,</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">  <span class="dt">styles</span><span class="op">:</span> [<span class="vs">`</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="vs">    img {</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="vs">      max-width: 100%;</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="vs">      height: auto;</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="vs">    }</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="vs">  `</span>]<span class="op">,</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">  <span class="dt">encapsulation</span><span class="op">:</span> <span class="va">ViewEncapsulation</span>.<span class="at">Native</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="op">}</span>)</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="im">export</span> <span class="kw">class</span> WolfComponent <span class="kw">implements</span> OnInit <span class="op">{</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">  @<span class="at">Input</span>()</a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">  <span class="dt">name</span><span class="op">:</span> string<span class="op">;</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21">  @<span class="at">Input</span>()</a>
+<a class="sourceLine" id="cb3-22" data-line-number="22">  <span class="dt">avatar</span><span class="op">:</span> string<span class="op">;</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24">  @<span class="at">Output</span>()</a>
+<a class="sourceLine" id="cb3-25" data-line-number="25">  revealed <span class="op">=</span> <span class="kw">new</span> <span class="at">EventEmitter</span>()<span class="op">;</span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27">  <span class="at">constructor</span>() <span class="op">{</span> <span class="op">}</span></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29">  <span class="at">ngOnInit</span>() <span class="op">{</span></a>
+<a class="sourceLine" id="cb3-30" data-line-number="30">  <span class="op">}</span></a>
+<a class="sourceLine" id="cb3-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb3-32" data-line-number="32">  <span class="at">reveal</span>(event) <span class="op">{</span></a>
+<a class="sourceLine" id="cb3-33" data-line-number="33">    <span class="kw">this</span>.<span class="va">revealed</span>.<span class="at">emit</span>(<span class="vs">`You found me. I am </span><span class="sc">${</span><span class="kw">this</span>.<span class="at">name</span><span class="sc">}</span><span class="vs"> the WolfComponent.`</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb3-34" data-line-number="34">  <span class="op">}</span></a>
+<a class="sourceLine" id="cb3-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb3-36" data-line-number="36"><span class="op">}</span></a></code></pre></div>
+<aside class="notes">
+<p>You dont have to care too much about everything in here.</p>
+<ul>
+<li><p><span class="citation" data-cites="Inputs">@Inputs</span> are the props we are passing in.</p></li>
+<li><p><span class="citation" data-cites="Outputs">@Outputs</span> are the events that the WebComponent will emit.</p></li>
+</ul>
+<p>Our WolfComponent takes in a name and avatar image url.</p>
+<p>It will emit a revealed event that we have bound to to a click handler.</p>
+</aside>
+</section>
+<section id="angular-elements-exporting" class="level2">
+<h2>Angular Elements (exporting)</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="im">export</span> <span class="kw">class</span> AppModule <span class="op">{</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="at">constructor</span>(<span class="kw">private</span> <span class="dt">injector</span><span class="op">:</span> Injector) <span class="op">{</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="kw">const</span> wolfElement <span class="op">=</span> <span class="at">createCustomElement</span>(WolfComponent<span class="op">,</span> <span class="op">{</span>injector<span class="op">}</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">    <span class="va">window</span>.<span class="va">customElements</span>.<span class="at">define</span>(<span class="st">&#39;ng-wolf&#39;</span><span class="op">,</span> wolfElement)<span class="op">;</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="op">}</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="co">// required because we are not bootstrapping into a dom element</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">  <span class="at">ngDoBootstrap</span>() <span class="op">{}</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="op">}</span></a></code></pre></div>
+<aside class="notes">
+<p>The important part here is the <code>createCustomElement</code> function.</p>
+<p>It takes our Angular Component and turns it into a legitimate WebComponent.</p>
+<p>Then we pass that into the global customElementsRegistry and assign it a tag. This step doesn’t necessarily have to happen here. It can happen anywhere that you have access to the constructor.</p>
+<p>(we have to do that anyway for our hack later to get the component “reactifed”)</p>
+</aside>
+</section>
+</section>
+<section class="slide level1">
+
+<section id="consuming-a-web-component-in-react" class="level2">
+<h2>Consuming a Web Component in React</h2>
+</section>
+<section id="polyfill" class="level2">
+<h2>Polyfill</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode html"><code class="sourceCode html"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.0.2/webcomponents-loader.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.0.2/custom-elements-es5-adapter.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></a></code></pre></div>
+<aside class="notes">
+<p>You can include these into your build process however you like, but they are essential right now. (only 2kb)</p>
+</aside>
+</section>
+<section id="reactify" class="level2">
+<h2>Reactify</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="im">export</span> <span class="kw">const</span> MyReactComponent <span class="op">=</span> <span class="at">reactify</span>(MyWebComponent)<span class="op">;</span></a></code></pre></div>
+</section>
+</section>
+<section class="slide level1">
+
+<section id="demo-time" class="level2">
+<h2>Demo Time</h2>
+</section>
+</section>
+<section class="slide level1">
+
 <section id="caveats" class="level2">
 <h2>Caveats</h2>
 <ul>
-<li><p>Framework overhead (~230kb for Angular) ## Citations and Further Reading</p></li>
+<li>Framework overhead (~60kb in this case)</li>
+<li>Inelegant import process</li>
+</ul>
+</section>
+<section id="framework-overhead" class="level2">
+<h2>Framework Overhead</h2>
+<p>~60kb in this case</p>
+<aside class="notes">
+<ul>
+<li><p>A different project with a bit more to it had 160kb. (Angular specific)</p></li>
+<li><p>All numbers are post-gzip.</p></li>
+<li><p>Polyfills are only 2kb total</p></li>
+</ul>
+</aside>
+</section>
+<section id="inelegant-import-process-angular-specific" class="level2">
+<h2>Inelegant Import Process (Angular Specific)</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="im">import</span> reactify <span class="im">from</span> <span class="st">&#39;skatejs-react-integration&#39;</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">const</span> components <span class="op">=</span> <span class="op">{};</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw">const</span> <span class="op">{</span> meta<span class="op">,</span> elements <span class="op">}</span> <span class="op">=</span> <span class="va">window</span>.<span class="at">myElements</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="va">meta</span>.<span class="va">tags</span>.<span class="at">forEach</span>(tag <span class="op">=&gt;</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">  <span class="kw">const</span> element <span class="op">=</span> elements[tag]<span class="op">;</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">  <span class="kw">const</span> component <span class="op">=</span> <span class="at">reactify</span>(element)<span class="op">;</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">  components[<span class="va">meta</span>.<span class="at">namesByTag</span>[tag]] <span class="op">=</span> component<span class="op">;</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="op">}</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="im">export</span> <span class="im">default</span> components<span class="op">;</span></a></code></pre></div>
+<aside class="notes">
+<ul>
+<li><p>window hack because Angular Elements does not expose the constructor functions that reactify needs</p></li>
+<li><p>I could be mistaken</p></li>
+</ul>
+</aside>
+</section>
+</section>
+<section class="slide level1">
+
+<section id="demo-time-the-code" class="level2">
+<h2>Demo Time (The Code)</h2>
+</section>
+</section>
+<section class="slide level1">
+
+<section id="thoughts" class="level2">
+<h2>Thoughts</h2>
+</section>
+<section id="citations-and-further-reading" class="level2">
+<h2>Citations and Further Reading</h2>
+<ul>
 <li><p>https://www.webcomponents.org/introduction</p></li>
 <li><p>https://angular.io/guide/elements</p></li>
 <li><p>https://github.com/webcomponents/react-integration</p></li>
@@ -97,81 +401,6 @@
 </ul>
 </section>
 <section id="ready-to-dive-in-yourself" class="level2">
-<h2>Ready To Dive in Yourself</h2>
-<aside class="notes">
-
-</aside>
-<style class="styling-overrides">
-code {
-  background: white;
-}
-</style>
-</section>
-</section>
-<section id="angular-elements-in-react-1" class="slide level1">
-<h1>Angular Elements In React</h1>
-</section>
-<section id="section-1" class="slide level1">
-<h1></h1>
-<p><img data-src="assets/wolf-in-sheeps-clothing.jpg" /></p>
-</section>
-<section class="slide level1">
-
-<section id="what---web-components-1" class="level2">
-<h2>What - Web Components</h2>
-<ul>
-<li><p>Custom Elements</p></li>
-<li><p>Shadow DOM</p></li>
-<li><p>HTML imports</p></li>
-<li><p>HTML Template</p></li>
-</ul>
-<aside class="notes">
-<p>The Custom Elements specification lays the foundation for designing and using new types of DOM elements.</p>
-<p>The rest are not as important for what I will be talking about today.</p>
-</aside>
-</section>
-<section id="what---angular-elements-1" class="level2">
-<h2>What - Angular Elements</h2>
-<blockquote>
-<p>Angular elements are Angular components packaged as custom elements, a web standard for defining new HTML elements in a framework-agnostic way.</p>
-</blockquote>
-<ul>
-<li><a href="https://angular.io/guide/elements" class="uri">https://angular.io/guide/elements</a></li>
-</ul>
-</section>
-</section>
-<section class="slide level1">
-
-<section id="why---portability-1" class="level2">
-<h2>Why - Portability</h2>
-<aside class="notes">
-<ul>
-<li><p>Older projects can use something like Angular Elements to wrap their components as web components. (Angular Elements may not be the specific solution, this is just an easy example.)</p></li>
-<li><p>Then you can rewrite the underlying application or components completely independent of each other as long as the continue to expose the same inputs and outputs.</p></li>
-<li><p>What if you are a large company with many apps that you want to keep stylistically in sync. Now you can write your components in one framework, export to web components, and then consume them across your organization. Updating the branding across multiple apps becomes a simple dependency version update as long as the “contract” of inputs and outputs is respected via semver.</p></li>
-</ul>
-</aside>
-</section>
-</section>
-<section class="slide level1">
-
-<section id="citations-and-further-reading" class="level2">
-<h2>Citations and Further Reading</h2>
-<ul>
-<li><p>https://www.webcomponents.org/introduction</p></li>
-<li><p>https://angular.io/guide/elements</p></li>
-<li><p>https://github.com/webcomponents/react-integration</p></li>
-<li><p>https://custom-elements-everywhere.com/</p></li>
-<li><p>https://medium.com/<span class="citation" data-cites="tomsu/building-web-components-with-angular-elements-746cd2a38d5b">@tomsu/building-web-components-with-angular-elements-746cd2a38d5b</span></p></li>
-</ul>
-</section>
-<section id="citations-contd-images-1" class="level2">
-<h2>Citations (contd): Images</h2>
-<ul>
-<li>http://www.thriveafterabuse.com/wp-content/uploads/2015/08/wolf-in-sheeps-clothing.jpg</li>
-</ul>
-</section>
-<section id="ready-to-dive-in-yourself-1" class="level2">
 <h2>Ready To Dive in Yourself</h2>
 <aside class="notes">
 
