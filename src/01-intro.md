@@ -33,6 +33,9 @@ The rest are not as important for what I will be talking about today.
 
 ## Why - Portability
 
+- Migrating Older projects
+- Organization-wide component library
+
 <div class="notes">
 
 - Older projects can use something like Angular Elements to wrap their components as web components. (Angular Elements may not be the specific solution, this is just an easy example.)

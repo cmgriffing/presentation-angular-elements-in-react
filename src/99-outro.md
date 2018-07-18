@@ -1,3 +1,6 @@
+## Thoughts
+
+
 ## Citations and Further Reading
 
 - https://www.webcomponents.org/introduction
