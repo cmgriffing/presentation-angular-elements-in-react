@@ -26,3 +26,14 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.sheep {
+  display: inline-block;
+  width: 50%;
+  height: auto;
+}
+
+ng-wolf {
+  display: inline-block;
+  width: 50%;
+}

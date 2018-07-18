@@ -4,10 +4,10 @@ const components = {};
 
 const { meta, elements } = window.myElements;
 
-meta.tags.map(tag => {
+meta.tags.forEach(tag => {
   const element = elements[tag];
-  components[meta.namesByTag[tag]] = reactify(element);
-})
-console.log('components keys', Object.keys(components));
+  const component = reactify(element);
+  components[meta.namesByTag[tag]] = component;
+});
 
 export default components;
